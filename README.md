@@ -17,13 +17,15 @@ pip install -r -requierements.txt
 
 To configure the bot, create a file named keys in the project directory, and add the following variables with your Twitter API credentials:
 
-api_key = 
-api_secret =
-bearer_token = 
-access_token = 
-access_token_secret = 
-consumer_key = 
-consumer_secret =
+```
+api_key = 'XXXXX'
+api_secret = 'XXXXX'
+bearer_token = 'XXXXX'
+access_token = 'XXXXX'
+access_token_secret = 'XXXXX'
+consumer_key = 'XXXXX'
+consumer_secret ='XXXXX'
+```
 
 python X.py
 
