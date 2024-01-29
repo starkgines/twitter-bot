@@ -1,5 +1,5 @@
 # twitter-bot
-## FOLLOW THE MAIN ACCOUNT @Opendata_PY
+## FOLLOW THE MAIN ACCOUNT @Opendata_PY[https://twitter.com/Opendata_PY]
 ## Description
 
 This project is a twitter bot that uses natural language processing (NLP) and analytics to publish open data. The bot collects data from various sources, such as government websites, APIs, and databases, and analyzes them using NLP techniques and other more classic techniques. The bot then generates tweets based on the data and posts them on Twitter, using hashtags, mentions, and links to increase visibility and engagement. The bot also responds to user queries and feedback, and provides interactive visualizations of the data.
