@@ -1,12 +1,13 @@
 import requests
 import json
 import pandas as pd
+import datetime
+import calendar
 
-
-def get_nomina(by_codigo_nivel: str ="11",by_codigo_entidad: str ="001",by_mes: str = "1"):
+def get_nomina(by_codigo_nivel: str ="all",by_codigo_entidad: str ="all",by_mes: str = "1"):
 
     api_url = "https://datos.hacienda.gov.py:443/odmh-api-v1/rest/api/v1/nomina/cabecera"
-    with open('/content/access_token.json') as json_file:
+    with open('./access_token.json') as json_file:
         access_token = json.load(json_file)['accessToken']
     # Query parameters
     params = {
@@ -28,13 +29,19 @@ def get_nomina(by_codigo_nivel: str ="11",by_codigo_entidad: str ="001",by_mes: 
             data = response.json()
             df = pd.DataFrame(data['results'])
 
+            if data['meta']['totalPages'] != 1: 
+                for page in range(2,data['meta']['totalPages']):
+                    params['page']=page
+                    response = requests.get(api_url, params=params, headers=headers)
+                    data = response.json()
+                    df2 = pd.DataFrame(data['results'])
+                    df = pd.concat([df, df2], ignore_index=True)    
+
             return df
         else:
             print(f"Error: {response.status_code} - {response.text}")
     except requests.RequestException as e:
         print(f"Request error: {e}")
-
-
 
 
 def get_accessToken():
@@ -82,11 +89,19 @@ def get_projects():
 if __name__ == "__main__":
     accessToken = get_accessToken()
     if accessToken is not None: print("Access token successfully obtained!!")
-    
-    nomina = get_nomina()
+
+    # Current month 
+    today_date = datetime.date.today()
+    last_month = today_date.replace(day=1) - datetime.timedelta(days=1)
+    #! Please, descomment after we found the correct date to update the csv.
+    #previous_month_number = str(last_month.month) 
+    #previous_month_name = calendar.month_name[last_month.month]
+    previous_month_number = '2'
+    previous_month_name = 'February'
+    nomina = get_nomina(by_mes = previous_month_number)
    
     if nomina is not None:
-        nomina.to_csv("output.csv")
+        nomina.to_csv(f"./Data/{previous_month_name}.csv")
         print(nomina)
 
 
